@@ -1,34 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ComputerList from './computers/ComputerList';
 import ComputerForm from './computers/ComputerForm';
+import { API_URL } from '../../config/constants';
 
 export default function ComputerManagement() {
   const [isAddingComputer, setIsAddingComputer] = useState(false);
   const [selectedComputer, setSelectedComputer] = useState(null);
-  const [computers, setComputers] = useState([
-    {
-      id: 1,
-      code: 'PC-001',
-      laboratory: 'Laboratorio 1',
-      specs: {
-        processor: 'Intel i5 11th Gen',
-        ram: '16GB',
-        storage: '512GB SSD'
-      },
-      status: 'operational'
-    },
-    {
-      id: 2,
-      code: 'PC-002',
-      laboratory: 'Laboratorio 1',
-      specs: {
-        processor: 'Intel i7 11th Gen',
-        ram: '32GB',
-        storage: '1TB SSD'
-      },
-      status: 'maintenance'
-    }
-  ]);
+  const [computers, setComputers] = useState([]);
+
+  useEffect(() => {
+    const fetchAllPcs = async () => {
+      try {
+        // Fetch Pcs
+        const responsePcs = await fetch(`${API_URL}/admin/all_pc`);
+        if (!responsePcs.ok) {
+          throw new Error('Failed to fetch pcs');
+        }
+        const pcsData = await responsePcs.json();
+
+
+        // Set users and roles
+        setComputers(pcsData);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchAllPcs();
+  }, []);
 
   const handleAddComputer = (computerData) => {
     setComputers([...computers, { ...computerData, id: Date.now() }]);

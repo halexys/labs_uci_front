@@ -31,17 +31,20 @@ export default function ComputerList({ computers, onEdit, onDelete }) {
                     {computer.code}
                   </p>
                   <p className="mt-1 text-sm text-gray-500">
-                    {computer.laboratory}
+                    Laboratorio {computer.laboratory}
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    En uso desde: {computer.fecha}
                   </p>
                   <div className="mt-2 flex flex-col space-y-1">
                     <p className="text-sm text-gray-500">
-                      Procesador: {computer.specs.processor}
+                      Propiedades: {computer.processor} • {computer.ram}GB RAM • {computer.ip}
                     </p>
                     <p className="text-sm text-gray-500">
-                      RAM: {computer.specs.ram}
+                      
                     </p>
                     <p className="text-sm text-gray-500">
-                      Almacenamiento: {computer.specs.storage}
+                      
                     </p>
                   </div>
                 </div>

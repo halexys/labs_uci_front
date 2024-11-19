@@ -34,10 +34,10 @@ export default function LoginForm() {
           exp: decodedToken.exp
         }, rememberMe);
       } else {
-        setError('Login failed. Please check your credentials.');
+        setError('Usuario o contraseña incorrectos');
       }
     } catch (err) {
-      setError('Connection error. Please try again.');
+      setError('Error de conexión');
     }
   };
 
@@ -63,7 +63,7 @@ export default function LoginForm() {
       
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-          Username
+          Nombre de Usuario
         </label>
         <input
           id="username"
@@ -79,7 +79,7 @@ export default function LoginForm() {
 
       <div>
         <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Password
+          Contraseña
         </label>
         <input
           id="password"
@@ -93,28 +93,13 @@ export default function LoginForm() {
         />
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <input
-            id="remember-me"
-            name="remember-me"
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-          />
-          <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-            Remember me
-          </label>
-        </div>
-
-      </div>
+      
 
       <button
         type="submit"
         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        Sign in
+        Iniciar Sesión
       </button>
     </form>
   );

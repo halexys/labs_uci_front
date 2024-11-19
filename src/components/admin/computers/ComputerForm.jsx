@@ -4,11 +4,10 @@ export default function ComputerForm({ computer, onSubmit, onCancel }) {
   const [formData, setFormData] = useState({
     code: '',
     laboratory: '',
-    specs: {
-      processor: '',
-      ram: '',
-      storage: ''
-    },
+    fecha: '',
+    processor: '',
+    ram: '',
+    ip: '',
     status: 'operational'
   });
 
@@ -80,45 +79,60 @@ export default function ComputerForm({ computer, onSubmit, onCancel }) {
         </div>
 
         <div>
-          <label htmlFor="specs.processor" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="fecha" className="block text-sm font-medium text-gray-700">
+            Fecha de Adquisición
+          </label>
+          <input
+            type="date"
+            name="fecha"
+            id="fecha"
+            required
+            value={formData.fecha}
+            onChange={handleChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="processor" className="block text-sm font-medium text-gray-700">
             Procesador
           </label>
           <input
             type="text"
-            name="specs.processor"
-            id="specs.processor"
+            name="processor"
+            id="processor"
             required
-            value={formData.specs.processor}
+            value={formData.processor}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         </div>
 
         <div>
-          <label htmlFor="specs.ram" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="ram" className="block text-sm font-medium text-gray-700">
             RAM
           </label>
           <input
             type="text"
-            name="specs.ram"
-            id="specs.ram"
+            name="ram"
+            id="ram"
             required
-            value={formData.specs.ram}
+            value={formData.ram}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
         </div>
 
         <div>
-          <label htmlFor="specs.storage" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="ip" className="block text-sm font-medium text-gray-700">
             Almacenamiento
           </label>
           <input
             type="text"
-            name="specs.storage"
-            id="specs.storage"
+            name="ip"
+            id="ip"
             required
-            value={formData.specs.storage}
+            value={formData.ip}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />

@@ -8,7 +8,7 @@ export default function StatsOverview({ stats }) {
     },
     {
       label: 'Docentes',
-      value: stats.totalTeachers,
+      value: stats.totalDocentes,
       icon: 'academic-cap',
       color: 'bg-green-500'
     },

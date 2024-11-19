@@ -1,28 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DocenteList from './docentes/DocenteList';
 import DocenteForm from './docentes/DocenteForm';
+import { API_URL } from '../../config/constants';
 
 export default function DocenteManagement() {
   const [isAddingDocente, setIsAddingDocente] = useState(false);
   const [selectedDocente, setSelectedDocente] = useState(null);
-  const [docentes, setDocentes] = useState([
-    {
-      id: 1,
-      name: 'Ana Martínez',
-      email: 'ana.martinez@example.com',
-      phone: '123-456-7890',
-      department: 'Informática',
-      status: 'active'
-    },
-    {
-      id: 2,
-      name: 'Carlos Ruiz',
-      email: 'carlos.ruiz@example.com',
-      phone: '098-765-4321',
-      department: 'Sistemas',
-      status: 'active'
-    }
-  ]);
+  const [docentes, setDocentes] = useState([]);
+
+  useEffect(() => {
+    const fetchDocentes = async () => {
+      try {
+        // Fetch users
+        const responseDocentes = await fetch(`${API_URL}/admin/all_doc`);
+        if (!responseDocentes.ok) {
+          throw new Error('Failed to fetch users');
+        }
+        const docentesData = await responseDocentes.json();
+
+        setDocentes(docentesData);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchDocentes();
+  }, []);
 
   const handleAddDocente = (docenteData) => {
     setDocentes([...docentes, { ...docenteData, id: Date.now() }]);

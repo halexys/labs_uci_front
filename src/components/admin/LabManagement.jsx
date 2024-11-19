@@ -1,36 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LabList from './labs/LabList';
 import LabForm from './labs/LabForm';
+import { API_URL } from '../../config/constants';
 
 export default function LabManagement() {
   const [isAddingLab, setIsAddingLab] = useState(false);
   const [selectedLab, setSelectedLab] = useState(null);
-  const [labs, setLabs] = useState([
-    {
-      id: 1,
-      name: 'Laboratorio 1',
-      capacity: 30,
-      location: 'Edificio A, Piso 2',
-      status: 'active',
-      equipment: {
-        computers: 30,
-        projector: true,
-        printer: true
+  const [labs, setLabs] = useState([]);
+
+  useEffect(() => {
+    const fetchLabs = async () => {
+      try {
+        // Fetch labs
+        const responseLabs = await fetch(`${API_URL}/admin/all_labs`);
+        if (!responseLabs.ok) {
+          throw new Error('Failed to fetch labs');
+        }
+        const labsData = await responseLabs.json();
+
+        setLabs(labsData);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
-    },
-    {
-      id: 2,
-      name: 'Laboratorio 2',
-      capacity: 25,
-      location: 'Edificio B, Piso 1',
-      status: 'active',
-      equipment: {
-        computers: 25,
-        projector: true,
-        printer: false
-      }
-    }
-  ]);
+    };
+
+    fetchLabs();
+  }, []);
 
   const handleAddLab = (labData) => {
     setLabs([...labs, { ...labData, id: Date.now() }]);

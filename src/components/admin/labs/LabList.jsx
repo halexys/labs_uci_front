@@ -8,25 +8,27 @@ export default function LabList({ labs, onEdit, onDelete }) {
               <div className="flex items-center justify-between">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-indigo-600 truncate">
-                    {lab.name}
+                    Laboratorio {lab.num_lab}
                   </p>
                   <p className="mt-1 text-sm text-gray-500">
-                    Capacidad: {lab.capacity} estudiantes • {lab.location}
+                    {lab.location}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {lab.equipment.computers} computadoras
+                      {lab.computers} computadoras
                     </span>
-                    {lab.equipment.projector && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Proyector
-                      </span>
+
+                    {lab.lab_type === 'Docencia' && (
+                      <><span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        {lab.lab_type}
+                        </span></>
                     )}
-                    {lab.equipment.printer && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        Impresora
-                      </span>
+                    {lab.lab_type === 'Produccion' && (
+                      <><span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        {lab.lab_type}
+                        </span></>
                     )}
+
                   </div>
                 </div>
                 <div className="flex space-x-2">
@@ -45,15 +47,6 @@ export default function LabList({ labs, onEdit, onDelete }) {
                 </div>
               </div>
               <div className="mt-2">
-                <span
-                  className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                    lab.status === 'active'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}
-                >
-                  {lab.status === 'active' ? 'Activo' : 'Inactivo'}
-                </span>
               </div>
             </div>
           </li>

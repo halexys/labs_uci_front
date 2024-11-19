@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import StatsOverview from './dashboard/StatsOverview';
 import RecentActivity from './dashboard/RecentActivity';
 import NotificationPanel from './dashboard/NotificationPanel';
+import { API_URL } from '../../config/constants';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalWorkers: 0,
-    totalTeachers: 0,
+    totalDocentes: 0,
     totalLabs: 0,
     totalComputers: 0,
     pendingRequests: 0
@@ -16,14 +17,30 @@ export default function AdminDashboard() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Mock data - replace with actual API calls
-    setStats({
-      totalWorkers: 10,
-      totalTeachers: 45,
-      totalLabs: 5,
-      totalComputers: 150,
-      pendingRequests: 8
-    });
+    
+    const fetchDashboard = async () => {
+      try {
+        // Fetch users
+        const responseDashboard = await fetch(`${API_URL}/admin/dashboard`);
+        if (!responseDashboard.ok) {
+          throw new Error('Failed to fetch dashboard');
+        }
+        const dashboardData = await responseDashboard.json();
+        
+        
+        setStats({
+          totalWorkers: dashboardData.totalWorkers,
+          totalDocentes: dashboardData.totalDocentes,
+          totalLabs: dashboardData.totalLabs,
+          totalComputers: dashboardData.totalComputers,
+          pendingRequests: dashboardData.pendingRequests
+        })
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchDashboard();
 
     setRecentActivity([
       {

@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 export default function UserForm({ user, onSubmit, onCancel }) {
   const [formData, setFormData] = useState({
     username: '',
-    email: '',
     password: '',
     role: 'teacher',
     status: 'active'
   });
+
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (user) {
@@ -18,9 +19,34 @@ export default function UserForm({ user, onSubmit, onCancel }) {
     }
   }, [user]);
 
+  const validate = () => {
+    const newErrors = {};
+    const usernameRegex = /^[a-zA-Z0-9]{4,10}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!formData.username) {
+      newErrors.username = 'Nombre de Usuario es requerido';
+    } else if (!usernameRegex.test(formData.username)) {
+      newErrors.username = 'Nombre de Usuario debe tener solo letras y números, entre 4 y 10 caracteres';
+    }
+
+    if (!formData.password && !user) {
+      newErrors.password = 'Contraseña es requerida';
+    } else if (formData.password && !passwordRegex.test(formData.password)) {
+      newErrors.password = 'Contraseña debe tener mínimo 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales';
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      onSubmit(formData);
+    }
   };
 
   const handleChange = (e) => {
@@ -28,6 +54,10 @@ export default function UserForm({ user, onSubmit, onCancel }) {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }));
+    setErrors(prev => ({
+      ...prev,
+      [name]: ''
     }));
   };
 
@@ -42,11 +72,12 @@ export default function UserForm({ user, onSubmit, onCancel }) {
             type="text"
             name="username"
             id="username"
-            required
+            // required
             value={formData.username}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
+          {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
         </div>
 
         <div>
@@ -57,11 +88,12 @@ export default function UserForm({ user, onSubmit, onCancel }) {
             type="password"
             name="password"
             id="password"
-            required={!user}
+            // required={!user}
             value={formData.password}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
           />
+          {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
         </div>
 
         <div>
@@ -71,7 +103,7 @@ export default function UserForm({ user, onSubmit, onCancel }) {
           <select
             name="role"
             id="role"
-            required
+            // required
             value={formData.role}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -89,7 +121,7 @@ export default function UserForm({ user, onSubmit, onCancel }) {
           <select
             name="status"
             id="status"
-            required
+            // required
             value={formData.status}
             onChange={handleChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
